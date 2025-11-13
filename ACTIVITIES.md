@@ -5,7 +5,7 @@ ChambaYa es una plataforma Android en Kotlin que conecta personas que necesitan 
 
 ---
 
-## 📱 Activities Principales
+## 📱 Activities Principales que conformaran la app
 
 ### 1. **LoginActivity**
 Autenticación de usuarios en la plataforma.
