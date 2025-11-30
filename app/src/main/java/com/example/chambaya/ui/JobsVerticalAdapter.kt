@@ -12,13 +12,16 @@ import com.example.chambaya.R
 import com.example.chambaya.model.Job
 import com.example.chambaya.model.JobType
 
-class JobsAdapter(
+/**
+ * Adapter para la vista vertical de trabajos (Cerca de ti)
+ */
+class JobsVerticalAdapter(
     private val onJobClick: (Job) -> Unit
-) : ListAdapter<Job, JobsAdapter.JobViewHolder>(JobDiffCallback()) {
+) : ListAdapter<Job, JobsVerticalAdapter.JobViewHolder>(JobDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): JobViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_job, parent, false)
+            .inflate(R.layout.item_job_new, parent, false)
         return JobViewHolder(view, onJobClick)
     }
 

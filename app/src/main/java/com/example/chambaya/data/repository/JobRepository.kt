@@ -120,7 +120,7 @@ class JobRepository(
         }
     }
 
-    // Insertar trabajos de ejemplo (solo local)
+    // Insertar trabajos de ejemplo (solo local) - Región de Biobío, Chile
     suspend fun insertSampleJobs() = withContext(Dispatchers.IO) {
         val count = jobDao.getJobCount()
         if (count == 0) {
@@ -128,67 +128,106 @@ class JobRepository(
                 Job(
                     id = "1",
                     title = "Pintura y remodelación",
-                    description = "Servicio de pintura profesional",
+                    description = "Profesional con 8 años de experiencia en pintura residencial e interiores. Trabajo limpio, puntual y con garantía.",
                     price = "$300/h",
                     type = JobType.OFFER,
                     providerName = "María López",
-                    latitude = 19.4326,
-                    longitude = -99.1332,
+                    latitude = -36.8270, // Concepción, Biobío
+                    longitude = -73.0497,
                     distance = 0.5,
-                    rating = null,
-                    category = "Construcción"
+                    rating = 4.8,
+                    category = "Pintura y Remodelación"
                 ),
                 Job(
                     id = "2",
+                    title = "Pintar sala 20 m²",
+                    description = "Necesito pintar sala de estar de 20 metros cuadrados. Incluye materiales.",
+                    price = "$1,200 MXN",
+                    type = JobType.DEMAND,
+                    providerName = "Carlos M.",
+                    latitude = -36.8340, // Talcahuano
+                    longitude = -73.1150,
+                    distance = 1.2,
+                    rating = null,
+                    category = "Pintura"
+                ),
+                Job(
+                    id = "3",
+                    title = "Cuidado de niños",
+                    description = "Niñera con 3 años de experiencia. Puedo cuidar a niños de 2 a 10 años, apoyo con tareas, juegos y preparación de comidas y fines de semana.",
+                    price = "$180/h",
+                    type = JobType.OFFER,
+                    providerName = "Paola Ramírez",
+                    latitude = -36.8210,
+                    longitude = -73.0410,
+                    distance = 0.9,
+                    rating = 4.8,
+                    category = "Cuidado de niños"
+                ),
+                Job(
+                    id = "4",
                     title = "Se busca plomero",
-                    description = "Fuga en baño",
+                    description = "Urgente: Fuga en baño. Necesito plomero hoy mismo.",
                     price = "Presupuesto",
                     type = JobType.DEMAND,
-                    providerName = "Usuario",
-                    latitude = 19.4340,
-                    longitude = -99.1350,
+                    providerName = "Juan Pérez",
+                    latitude = -36.8190,
+                    longitude = -73.0520,
                     distance = 0.8,
                     rating = null,
                     category = "Plomería"
                 ),
                 Job(
-                    id = "3",
-                    title = "Cuidado de niños",
-                    description = "Cuidadora profesional con experiencia",
-                    price = "$180/h",
+                    id = "5",
+                    title = "Limpieza de departamento",
+                    description = "Servicio de limpieza profunda para departamentos y casas. Incluye baños, cocina y habitaciones.",
+                    price = "$250/h",
                     type = JobType.OFFER,
-                    providerName = "Paola Ramírez",
-                    latitude = 19.4310,
-                    longitude = -99.1310,
-                    distance = 0.9,
-                    rating = 4.8,
-                    category = "Cuidado"
+                    providerName = "Limpieza y Más",
+                    latitude = -36.8290,
+                    longitude = -73.0500,
+                    distance = 0.3,
+                    rating = 4.5,
+                    category = "Limpieza"
                 ),
                 Job(
-                    id = "4",
-                    title = "Se requiere jardinería",
-                    description = "Podar y limpiar jardín",
-                    price = "Presupuesto",
+                    id = "6",
+                    title = "Electricista certificado",
+                    description = "Instalaciones eléctricas, reparaciones y mantención. Certificado SEC.",
+                    price = "$350/h",
+                    type = JobType.OFFER,
+                    providerName = "Carlos Mendoza",
+                    latitude = -36.8250,
+                    longitude = -73.0450,
+                    distance = 0.6,
+                    rating = 4.9,
+                    category = "Electricidad"
+                ),
+                Job(
+                    id = "7",
+                    title = "Se requiere jardinero",
+                    description = "Necesito podar árboles y limpiar jardín grande.",
+                    price = "A convenir",
                     type = JobType.DEMAND,
-                    providerName = "Usuario",
-                    latitude = 19.4360,
-                    longitude = -99.1380,
-                    distance = 1.3,
+                    providerName = "Ana Torres",
+                    latitude = -36.8360,
+                    longitude = -73.0580,
+                    distance = 1.5,
                     rating = null,
                     category = "Jardinería"
                 ),
                 Job(
-                    id = "5",
-                    title = "Electricista certificado",
-                    description = "Instalaciones eléctricas",
-                    price = "$250/h",
+                    id = "8",
+                    title = "Carpintería y muebles",
+                    description = "Fabricación de muebles a medida y reparaciones de carpintería en general.",
+                    price = "$400/h",
                     type = JobType.OFFER,
-                    providerName = "Carlos Mendoza",
-                    latitude = 19.4290,
-                    longitude = -99.1300,
-                    distance = 1.5,
-                    rating = 4.9,
-                    category = "Electricidad"
+                    providerName = "Taller Maderas del Sur",
+                    latitude = -36.8300,
+                    longitude = -73.0530,
+                    distance = 0.7,
+                    rating = 4.7,
+                    category = "Carpintería"
                 )
             )
             jobDao.insertJobs(sampleJobs)

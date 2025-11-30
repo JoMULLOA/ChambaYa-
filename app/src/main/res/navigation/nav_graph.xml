@@ -8,11 +8,13 @@
         android:id="@+id/jobListFragment"
         android:name="com.example.chambaya.ui.JobListFragment"
         android:label="@string/nearby_jobs"
-        tools:layout="@layout/fragment_job_list">
-        <action
-            android:id="@+id/action_jobListFragment_to_jobMapFragment"
-            app:destination="@id/jobMapFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_job_list" />
+
+    <fragment
+        android:id="@+id/jobDetailFragment"
+        android:name="com.example.chambaya.ui.JobDetailFragment"
+        android:label="@string/job_details"
+        tools:layout="@layout/fragment_job_detail" />
 
     <fragment
         android:id="@+id/jobMapFragment"

@@ -3,10 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="200dp"
+    android:layout_width="180dp"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardCornerRadius="12dp"
+    android:layout_marginEnd="12dp"
+    app:cardCornerRadius="16dp"
     app:cardElevation="4dp"
     android:clickable="true"
     android:focusable="true">
@@ -15,11 +15,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <!-- Imagen del trabajo -->
         <ImageView
             android:id="@+id/ivJobImage"
             android:layout_width="0dp"
-            android:layout_height="120dp"
+            android:layout_height="140dp"
             android:scaleType="centerCrop"
             android:background="#E0E0E0"
             android:contentDescription="@string/job_image"
@@ -28,7 +27,23 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- Contenido -->
+        <TextView
+            android:id="@+id/tvJobType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:background="@android:color/holo_blue_light"
+            android:textColor="@android:color/white"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            tools:text="Oferta"
+            app:layout_constraintTop_toTopOf="@id/ivJobImage"
+            app:layout_constraintEnd_toEndOf="@id/ivJobImage" />
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -39,38 +54,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent">
 
-            <!-- Título y precio -->
-            <LinearLayout
+            <TextView
+                android:id="@+id/tvJobTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:maxLines="2"
+                android:ellipsize="end"
+                tools:text="Cuidado de niños" />
 
-                <TextView
-                    android:id="@+id/tvJobTitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/black"
-                    android:maxLines="2"
-                    android:ellipsize="end"
-                    tools:text="Pintura y remodelación" />
-
-                <TextView
-                    android:id="@+id/tvPrice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/black"
-                    android:layout_marginStart="4dp"
-                    tools:text="$300/h" />
-
-            </LinearLayout>
-
-            <!-- Proveedor y distancia -->
             <TextView
                 android:id="@+id/tvProviderName"
                 android:layout_width="match_parent"
@@ -78,9 +72,10 @@
                 android:layout_marginTop="4dp"
                 android:textSize="12sp"
                 android:textColor="@android:color/darker_gray"
-                tools:text="María López • 0.5 km" />
+                android:maxLines="1"
+                android:ellipsize="end"
+                tools:text="Paola R. • 0.9 km" />
 
-            <!-- Tipo de trabajo -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -89,37 +84,33 @@
                 android:gravity="center_vertical">
 
                 <TextView
-                    android:id="@+id/tvJobType"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/tvPrice"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp"
-                    android:paddingTop="4dp"
-                    android:paddingBottom="4dp"
-                    android:background="@android:color/holo_blue_light"
-                    android:textColor="@android:color/white"
-                    android:textSize="11sp"
+                    android:layout_weight="1"
+                    android:textSize="14sp"
                     android:textStyle="bold"
-                    tools:text="Oferta" />
+                    android:textColor="@android:color/holo_green_dark"
+                    tools:text="$180/h" />
+
+                <ImageView
+                    android:id="@+id/ivStar"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@android:drawable/btn_star_big_on"
+                    android:contentDescription="Rating" />
 
                 <TextView
                     android:id="@+id/tvRating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:textSize="11sp"
-                    android:textColor="@android:color/holo_orange_dark"
+                    android:layout_marginStart="4dp"
+                    android:textSize="12sp"
                     android:textStyle="bold"
-                    android:visibility="gone"
-                    tools:text="⭐ 4.8"
-                    tools:visibility="visible" />
-
+                    android:textColor="@android:color/black"
+                    tools:text="4.8" />
             </LinearLayout>
-
         </LinearLayout>
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </com.google.android.material.card.MaterialCardView>
 

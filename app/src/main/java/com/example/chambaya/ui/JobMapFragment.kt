@@ -29,6 +29,10 @@ class JobMapFragment : Fragment() {
     private val markers = mutableListOf<Marker>()
     private lateinit var myLocationOverlay: MyLocationNewOverlay
 
+    // Coordenadas de Biobío, Chile (Concepción como referencia)
+    private val DEFAULT_LAT = -36.8270
+    private val DEFAULT_LON = -73.0497
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -54,7 +58,8 @@ class JobMapFragment : Fragment() {
             setTileSource(TileSourceFactory.MAPNIK)
             setMultiTouchControls(true)
             controller.setZoom(14.0)
-            controller.setCenter(GeoPoint(19.4326, -99.1332))
+            // Centrar en Biobío, Chile por defecto
+            controller.setCenter(GeoPoint(DEFAULT_LAT, DEFAULT_LON))
         }
 
         myLocationOverlay = MyLocationNewOverlay(GpsMyLocationProvider(context), binding.mapView)
@@ -73,8 +78,17 @@ class JobMapFragment : Fragment() {
     }
 
     private fun observeJobs() {
-        viewModel.jobs.observe(viewLifecycleOwner) { addMarkersToMap(it) }
-        viewModel.selectedJob.observe(viewLifecycleOwner) { job -> job?.let { focusOnJob(it) } }
+        viewModel.jobs.observe(viewLifecycleOwner) { jobs ->
+            addMarkersToMap(jobs)
+        }
+
+        viewModel.selectedJob.observe(viewLifecycleOwner) { job ->
+            job?.let {
+                focusOnJob(it)
+                // Guardar la ubicación del trabajo seleccionado
+                saveJobLocation(it)
+            }
+        }
     }
 
     private fun requestLocationPermission() {
@@ -130,12 +144,18 @@ class JobMapFragment : Fragment() {
                     val userLocation = GeoPoint(it.latitude, it.longitude)
                     binding.mapView.controller.animateTo(userLocation)
                     binding.mapView.controller.setZoom(15.0)
+                } ?: run {
+                    // Si no hay ubicación, centrar en Biobío
+                    binding.mapView.controller.animateTo(GeoPoint(DEFAULT_LAT, DEFAULT_LON))
+                    binding.mapView.controller.setZoom(12.0)
+                    Toast.makeText(context, "Mostrando región de Biobío, Chile", Toast.LENGTH_SHORT).show()
                 }
             }
         }
     }
 
     private fun addMarkersToMap(jobs: List<Job>) {
+        // Limpiar marcadores anteriores
         markers.forEach { binding.mapView.overlays.remove(it) }
         markers.clear()
 
@@ -143,12 +163,15 @@ class JobMapFragment : Fragment() {
             val marker = Marker(binding.mapView)
             marker.position = GeoPoint(job.latitude, job.longitude)
             marker.title = job.title
-            marker.snippet = "${job.providerName} - ${job.price}"
+            marker.snippet = "${job.providerName}\n${job.price}\n${job.distance} km"
+            marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
+
             marker.setOnMarkerClickListener { clickedMarker, _ ->
                 viewModel.selectJob(job)
                 clickedMarker.showInfoWindow()
                 true
             }
+
             binding.mapView.overlays.add(marker)
             markers.add(marker)
         }
@@ -159,8 +182,19 @@ class JobMapFragment : Fragment() {
         val position = GeoPoint(job.latitude, job.longitude)
         binding.mapView.controller.animateTo(position)
         binding.mapView.controller.setZoom(16.0)
-        markers.find { it.position.latitude == job.latitude && it.position.longitude == job.longitude }
-            ?.showInfoWindow()
+
+        // Encontrar y mostrar el info window del marcador correspondiente
+        markers.find {
+            it.position.latitude == job.latitude &&
+            it.position.longitude == job.longitude
+        }?.showInfoWindow()
+    }
+
+    private fun saveJobLocation(job: Job) {
+        // La ubicación ya está guardada en la base de datos Room
+        // que actúa como caché local. Para sincronizar con PostgreSQL,
+        // se puede llamar al ViewModel para hacer la sincronización
+        viewModel.updateJob(job)
     }
 
     override fun onResume() {

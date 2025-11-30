@@ -16,7 +16,7 @@ class JobListFragment : Fragment() {
     private var _binding: FragmentJobListBinding? = null
     private val binding get() = _binding!!
     private val viewModel: JobViewModel by activityViewModels()
-    private lateinit var nearbyAdapter: JobsAdapter
+    private lateinit var nearbyAdapter: JobsVerticalAdapter
     private lateinit var newAdapter: JobsAdapter
 
     override fun onCreateView(
@@ -31,26 +31,48 @@ class JobListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerViews()
+        setupButtons()
         observeJobs()
     }
 
     private fun setupRecyclerViews() {
-        nearbyAdapter = JobsAdapter { job ->
+        // Adapter para "Nuevos en tu zona" (horizontal)
+        newAdapter = JobsAdapter { job ->
             viewModel.selectJob(job)
-            findNavController().navigate(R.id.action_jobListFragment_to_jobMapFragment)
+            findNavController().navigate(R.id.jobDetailFragment)
+        }
+        binding.recyclerViewNew.apply {
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            adapter = newAdapter
+        }
+
+        // Adapter para "Cerca de ti" (vertical)
+        nearbyAdapter = JobsVerticalAdapter { job ->
+            viewModel.selectJob(job)
+            findNavController().navigate(R.id.jobDetailFragment)
         }
         binding.recyclerViewNearby.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = nearbyAdapter
         }
+    }
 
-        newAdapter = JobsAdapter { job ->
-            viewModel.selectJob(job)
-            findNavController().navigate(R.id.action_jobListFragment_to_jobMapFragment)
+    private fun setupButtons() {
+        // Botón flotante para ver el mapa
+        binding.fabViewMap.setOnClickListener {
+            findNavController().navigate(R.id.jobMapFragment)
         }
-        binding.recyclerViewNew.apply {
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            adapter = newAdapter
+
+        // Botón de publicar servicio
+        binding.btnPublish.setOnClickListener {
+            // TODO: Navegar a pantalla de publicar servicio
+            // Por ahora solo mostramos un mensaje
+        }
+
+        // Barra de búsqueda
+        binding.searchCard.setOnClickListener {
+            // TODO: Navegar a pantalla de búsqueda
+            // Por ahora solo mostramos un mensaje
         }
     }
 

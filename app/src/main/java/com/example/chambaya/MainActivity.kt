@@ -1,17 +1,13 @@
 package com.example.chambaya
 
 import android.os.Bundle
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
 import com.example.chambaya.databinding.ActivityMainBinding
-import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,16 +26,24 @@ class MainActivity : AppCompatActivity() {
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
 
+        // Configurar App Bar con los fragmentos principales
         appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.jobListFragment, R.id.jobMapFragment),
-            binding.drawerLayout
+            setOf(R.id.jobListFragment)
         )
 
         setupActionBarWithNavController(navController, appBarConfiguration)
-        binding.navigationView.setupWithNavController(navController)
 
-        binding.topAppBar.setNavigationOnClickListener {
-            binding.drawerLayout.open()
+        // Ocultar el título en la pantalla principal para un diseño más limpio
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.jobListFragment -> {
+                    supportActionBar?.setDisplayShowTitleEnabled(false)
+                    binding.topAppBar.title = ""
+                }
+                else -> {
+                    supportActionBar?.setDisplayShowTitleEnabled(true)
+                }
+            }
         }
     }
 
